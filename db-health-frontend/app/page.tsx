@@ -1,65 +1,90 @@
-import Image from "next/image";
+import ThemeToggle from "@/components/ThemeToggle"
+import Link from "next/link"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+      {/* Navbar */}
+      <div className="flex justify-between items-center px-10 py-6 max-w-7xl mx-auto">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          DBPulse AI
+        </h1>
+        <ThemeToggle />
+      </div>
+
+      {/* Hero */}
+      <section className="text-center px-6 pt-24 pb-20 max-w-4xl mx-auto">
+        <h2 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          Intelligent Database  
+          <span className="block text-gray-400 dark:text-gray-500">
+            Health Analysis Platform
+          </span>
+        </h2>
+
+        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10">
+          Upload Oracle AWR or PostgreSQL logs and receive
+          a structured health score with actionable insights.
+          No login required.
+        </p>
+
+        <div className="flex justify-center gap-4">
+          <Link href="/oracle">
+            <button className="px-6 py-3 bg-black text-white dark:bg-white dark:text-black rounded-xl hover:opacity-80 transition">
+              Analyze Oracle
+            </button>
+          </Link>
+
+          <Link href="/postgres">
+            <button className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+              Analyze PostgreSQL
+            </button>
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Feature Section */}
+      <section className="border-t border-gray-200 dark:border-gray-800 py-20 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 text-center">
+
+          <div>
+            <h3 className="text-xl font-semibold mb-3">
+              AI-Powered Scoring
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              Automated analysis of wait events,
+              CPU, memory, and performance patterns.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-3">
+              Secure File Processing
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              Files are processed temporarily and
+              not permanently stored.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-3">
+              Actionable Recommendations
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              Practical guidance tailored for
+              Oracle & PostgreSQL DBAs.
+            </p>
+          </div>
+
         </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 dark:border-gray-800 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">
+        © {new Date().getFullYear()} DBPulse AI — Built for Database Engineers
+      </footer>
+
+    </main>
+  )
 }
