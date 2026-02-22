@@ -1,0 +1,53 @@
+from fastapi import APIRouter, UploadFile, File
+from typing import List
+from app.engines.oracle.parser import parse_awr
+from app.engines.oracle.scorer import score_awr
+from app.services.awr_metadata_extractor import extract_awr_metadata
+from app.services.awr_validator import validate_cluster
+
+router = APIRouter()
+
+
+# ---------------------------
+# ✅ Existing single file API (keep this working)
+# ---------------------------
+@router.post("/oracle")
+async def analyze_oracle(file: UploadFile = File(...)):
+    content = await file.read()
+    text = content.decode(errors="ignore")
+
+    features = parse_awr(text)
+    result = score_awr(features)
+
+    return result
+
+
+# ---------------------------
+# 🚀 New Enterprise Multi-File API
+# ---------------------------
+@router.post("/oracle/multi")
+async def analyze_oracle_multi(files: List[UploadFile] = File(...)):
+
+    metadata_list = []
+    texts = []
+
+    for file in files:
+        content = await file.read()
+        text = content.decode(errors="ignore")
+        texts.append(text)
+
+        metadata = extract_awr_metadata(text)
+        metadata_list.append(metadata)
+
+    validation = validate_cluster(metadata_list)
+
+    if validation["status"] == "rejected":
+        return validation
+
+    # For now just return metadata + validation
+    # Later we plug scoring engine by mode
+    return {
+        "status": "accepted",
+        "files_uploaded": len(files),
+        "metadata": [m.dict() for m in metadata_list]
+    }
